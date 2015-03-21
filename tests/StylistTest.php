@@ -11,6 +11,10 @@ $DB = new PDO('pgsql:host=localhost; dbname=hair_salon_test');
 
 class SylistTest extends PHPUnit_Framework_TestCase
 {
+	protected function tearDown()
+	{
+		Stylist::deleteAll();
+	}
 
 	function test_getName()
 	{
@@ -41,22 +45,61 @@ class SylistTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("Susanna", $result);
 	}
 
+	function test_save()
+	{
+		//Arrange
+		$name = "Susanna";
+		$id = 1;
+		$test_stylist = new Stylist($name, $id);
 
-	// function test_getAll()
-	// {
-	// 	//Arrange
-	// 	$name = "Susanna";
-	// 	$id= 1;
-	// 	$test_Stylist = new Stylist($name, $id);
+		//Act
+		$test_stylist->save();
 
-	// 	$name2 = "Staci";
-	// 	$id = 2;
-	// 	$test_Stylist2 = new Stylist($name2, $id2);
+		//Assert
+		$result= Stylist::getAll();
+		$this->assertEquals($test_stylist, $result[0]);
+	}
 
 
-	// 	//Act
+	function test_getAll()
+	{
+		//Arrange
+		$name = "Susanna";
+		$id= 1;
+		$test_Stylist = new Stylist($name, $id);
 
-	// 	//Assert
-	// }
+		$name2 = "Staci";
+		$id2 = 2;
+		$test_Stylist2 = new Stylist($name2, $id2);
+
+		//Act
+		$test_Stylist->save();
+		$test_Stylist2->save();
+
+		//Assert
+		$result= Stylist::getAll();
+		$this->assertEquals([$test_Stylist, $test_Stylist2], $result);
+	}
+
+	function test_deleteAll()
+	{
+		//Arrange
+		$name = "Susanna";
+		$id= 1;
+		$test_Stylist = new Stylist($name, $id);
+
+		$name2 = "Staci";
+		$id2 = 2;
+		$test_Stylist2 = new Stylist($name2, $id2);
+
+		//Act
+		$test_Stylist->save();
+		$test_Stylist2->save();
+		Stylist::deleteAll();
+
+		//Assert
+		$result= Stylist::getAll();
+		$this->assertEquals([], $result);
+	}
 }
 ?>
