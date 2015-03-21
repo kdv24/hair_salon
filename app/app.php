@@ -13,11 +13,40 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
-	$app->get("/", function () use ($app)
+	$app->get("/stylists", function () use ($app)
 	{
 		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
 	});
 
+	$app->post("/stylists", function () use ($app)
+	{
+		return $app['twig']->render('stylists.twig');
+	});
+
+	$app->delete("/stylists/{id}", function () use ($app)
+	{
+		return $app['twig']->render('stylists.twig');
+	});
+
+	$app->patch("/delete_stylists", function () use ($app)
+	{
+		return $app['twig']->render('stylists.twig');
+	});
+
+	$app->get("/stylist/{id}", function() use ($app)
+	{
+		return $app['twig']->render('stylists.twig');
+	});
+
+	$app->patch("/stylist/{id}", function() use($app)
+	{
+		return $app['twig']->render('stylists.twig');
+	});
+
+	$app->get("/stylists/{id}", function() use ($app)
+	{
+		return $app['twig']->render("/stylists/{id}/edit");
+	});
 
 
 	return $app;
