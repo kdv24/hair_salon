@@ -60,6 +60,22 @@ class SylistTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($test_stylist, $result[0]);
 	}
 
+	function test_update()
+	{
+		//Arrange
+		$name = "Susanna";
+		$id = 1;
+		$test_name = new Stylist($name, $id);
+		$test_name->save();
+		$new_name= "Linda";
+
+		//Act
+		$test_name->update($new_name);
+
+		//Assert
+		$this->assertEquals("Linda", $test_name->getName());
+	}
+
 
 	function test_getAll()
 	{

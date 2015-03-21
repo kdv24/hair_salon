@@ -32,11 +32,17 @@
 			$this->id=(int)$new_id;
 		}
 
-		function save ()//saves to the database
+		function save()//saves to the database
 		{
 			$statement = $GLOBALS['DB']->query("INSERT INTO stylists (stylist_name) VALUES ('{$this->getName()}') RETURNING id;");
 			$result = $statement->fetch(PDO::FETCH_ASSOC);
 			$this->setId($result['id']);
+		}
+
+		function update($new_name)
+		{
+			$GLOBALS['DB']->exec("UPDATE stylists SET stylist_name = '{$new_name}' WHERE id = {$this->getId()};");
+			$this->setName($new_name);
 		}
 
 		static function getAll() 
