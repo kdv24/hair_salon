@@ -13,40 +13,47 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
-	$app->get("/stylists", function () use ($app)
+	$app->get("/", function () use ($app)
 	{
 		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
 	});
 
 	$app->post("/stylists", function () use ($app)
-	{
-		return $app['twig']->render('stylists.twig');
+	{	
+		//to add a new stylist
+		$new_stylist = new Stylist($_POST['name']);
+		$new_stylist->save();
+		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
 	});
 
-	$app->delete("/stylists/{id}", function () use ($app)
-	{
-		return $app['twig']->render('stylists.twig');
-	});
+	// $app->delete("/stylists/{id}", function () use ($app)
+	// {
+	// 	//delete a stylist
+	// 	return $app['twig']->render('stylists.twig');
+	// });
 
-	$app->patch("/delete_stylists", function () use ($app)
-	{
-		return $app['twig']->render('stylists.twig');
-	});
+	// $app->patch("/delete_stylists", function () use ($app)
+	// {
+	// 	//
+	// 	return $app['twig']->render('stylists.twig');
+	// });
 
-	$app->get("/stylist/{id}", function() use ($app)
-	{
-		return $app['twig']->render('stylists.twig');
-	});
+	// $app->get("/stylists/{id}", function() use ($app)
+	// {
+	// 	//view a specific stylist
+	// 	return $app['twig']->render('stylist.twig');
+	// });
 
-	$app->patch("/stylist/{id}", function() use($app)
-	{
-		return $app['twig']->render('stylists.twig');
-	});
+	// $app->patch("/stylists/{id}", function() use($app)
+	// {
+	// 	//change a specific stylist
+	// 	return $app['twig']->render('stylist.twig');
+	// });
 
-	$app->get("/stylists/{id}", function() use ($app)
-	{
-		return $app['twig']->render("/stylists/{id}/edit");
-	});
+	// $app->get("/stylists/{id}/edit", function() use ($app)
+	// {
+	// 	return $app['twig']->render('stylists_edit.twig');
+	// });
 
 
 	return $app;

@@ -5,15 +5,21 @@
     <body>
         <h3>stylists.twig</h3>
         <h2>HAIR SALON</h2>
+        <h3>Landing page displaying all stylists</h3>
+        {% if stylists is not empty %}
+        <p>These are all our stylists:</p>
         <ul>
         {% for stylist in stylists %}
         <li> {{ stylist.getName() }}</li>
         {% endfor %}
         </ul>
-
-       
-
-        
-
+        {% endif %}
+    
+        <form action="/stylists" method="post">
+            <label for = "name">Enter a new stylist</label>
+            <input id ="name" name = "name" type= "text">
+            <button type = "submit">Go!</button>
+          <br>
+        </form>
     </body>
 </html>
