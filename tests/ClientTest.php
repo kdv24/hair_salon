@@ -47,20 +47,21 @@ class ClientTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("Joe", $result);
 	}
 
-	// function test_save()
-	// {
-	// 	//Arrange
-	// 	$name = "Susanna";
-	// 	$id = 1;
-	// 	$test_stylist = new Stylist($name, $id);
+	function test_save()
+	{
+		//Arrange
+		$name = "Joe";
+		$id = 1;
+		$stylist_id = 2;
+		$test_stylist = new Stylist($name, $id, $stylist_id);
 
-	// 	//Act
-	// 	$test_stylist->save();
+		//Act
+		$test_stylist->save();
 
-	// 	//Assert
-	// 	$result= Stylist::getAll();
-	// 	$this->assertEquals($test_stylist, $result[0]);
-	// }
+		//Assert
+		$result= Stylist::getAll();
+		$this->assertEquals($test_stylist, $result[0]);
+	}
 
 	// function test_update()
 	// {
