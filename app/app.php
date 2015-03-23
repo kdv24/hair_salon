@@ -67,5 +67,9 @@
         return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
     });
 
+	//Clients section
+	$app->get("clients", function() use ($app){
+		return $app['twig']->render('clients.twig', array('clients'=> Client::getAll()));
+	})
 	return $app;
 ?>
