@@ -13,11 +13,17 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
-	$app->get("/", function () use ($app)
+	$app->get("/", function() use ($app)
 	{
 		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
 	});
 
+	$app->get("/stylists", function() use ($app)
+	{
+		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
+	});
+
+	//WORKS TO ADD NEW STYLIST
 	$app->post("/stylists", function () use ($app)
 	{	
 		//to add a new stylist
@@ -26,35 +32,40 @@
 		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
 	});
 
-	// $app->delete("/stylists/{id}", function () use ($app)
-	// {
-	// 	//delete a stylist
-	// 	return $app['twig']->render('stylists.twig');
-	// });
+	$app->get("/stylists/{id}", function($id) use ($app)
+	{
+		//view a specific stylist
+		$current_stylist = Stylist::find($id);
+		return $app['twig']->render('stylist.twig', array('stylist' => $current_stylist, 'stylists'=>Stylist::getAll()));
+	});
 
-	// $app->patch("/delete_stylists", function () use ($app)
-	// {
-	// 	//
-	// 	return $app['twig']->render('stylists.twig');
-	// });
+	$app->get("/stylists/{id}/edit", function($id) use ($app)
+	{
+		$current_stylist = Stylist::find($id);
+		return $app['twig']->render('stylist_edit.twig', array('stylist' => $current_stylist));		
+	});
 
-	// $app->get("/stylists/{id}", function() use ($app)
-	// {
-	// 	//view a specific stylist
-	// 	return $app['twig']->render('stylist.twig');
-	// });
+	$app->patch("/stylists/{id}", function($id) use ($app) {
+        $current_stylist = Stylist::find($id);
+        $new_name = $_POST['name'];
+        $current_stylist->update($new_name);
+        return $app['twig']->render('stylist.twig', array('stylist' => $current_stylist, 'stylists'=> Stylist::getAll()));
+    });
 
-	// $app->patch("/stylists/{id}", function() use($app)
-	// {
-	// 	//change a specific stylist
-	// 	return $app['twig']->render('stylist.twig');
-	// });
+	$app->delete("/stylists/{id}", function ($id) use ($app)
+	{
+		//delete a stylist
+		$current_stylist = Stylist::find($id);
+		$current_stylist->delete();
+		return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
+	});    
 
-	// $app->get("/stylists/{id}/edit", function() use ($app)
-	// {
-	// 	return $app['twig']->render('stylists_edit.twig');
-	// });
-
+	//WORKS TO DELETE ALL STYLISTS ON HOME PAGE AND STAY HOME
+	$app->post("/delete_stylists", function() use ($app) 
+	{
+        Stylist::deleteAll();
+        return $app['twig']->render('stylists.twig', array('stylists' => Stylist::getAll()));
+    });
 
 	return $app;
 ?>

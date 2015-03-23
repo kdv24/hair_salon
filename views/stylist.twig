@@ -1,20 +1,25 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <title>Stylists</title>
     </head>
     <body>
+    <div class="container">
         <h3>stylist.twig</h3>
         <h2>HAIR SALON</h2>
         <h3>Individual stylist page</h3>
-        <ul>
-        {% for stylist in stylists %}
-        <li> {{ stylist.getName() }}</li>
-        {% endfor %}
-        </ul>
+        {% if stylists is not empty %}
+            <h4>You added the following stylist: </h4>
+                    <h3>{{ stylist.getName }} </h3>
+        {% endif %}
 
-       
+    <button><a href="/stylists/{{ stylist.getId }}/edit">Edit</a></button>
 
-        
-
+    <form action="/stylists/{{ stylist.getId }}" method="post">
+      <input name="_method" type="hidden" value="delete">
+      <button type="submit">Delete</button>
+    </form>
+    <button><a href='/stylists'>List all stylists</a></button>
+    </div>
     </body>
 </html>

@@ -39,6 +39,21 @@
 			$this->setId($result['id']);
 		}
 
+		static function find($stylist_search_id)
+		{
+			$found_stylist = null;
+			$all_stylists = Stylist::getAll();
+			foreach($all_stylists as $current_stylist)
+			{
+				$current_id = $current_stylist->getId();
+				if ($current_id == $stylist_search_id)
+				{
+				$found_stylist = $current_stylist;
+				}
+			}
+			return $found_stylist;
+		}
+
 		function update($new_name)
 		{
 			$GLOBALS['DB']->exec("UPDATE stylists SET stylist_name = '{$new_name}' WHERE id = {$this->getId()};");

@@ -1,25 +1,48 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <title>Stylists</title>
     </head>
     <body>
         <h3>stylists.twig</h3>
-        <h2>HAIR SALON</h2>
-        <h3>Landing page displaying all stylists</h3>
-        {% if stylists is not empty %}
-        <p>These are all our stylists:</p>
-        <ul>
-        {% for stylist in stylists %}
-        <li> {{ stylist.getName() }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
+        <div class="container">
+            <h2>HAIR SALON</h2>
+            <h3>Stylists</h3>
+            {% if stylists is not empty %}
+            <ul>
+                {% for stylist in stylists %}
+                    <li>
+                        <a href='/stylists/{{stylist.getId}}'><h4> {{ stylist.getName() }}</h4></a>
+                        <div>
+                        <a href="/stylists/{{stylist.getId}}/edit"><button>Update</button></a>
+                        <form action="/stylists/{{stylist.getId}}" method="post">
+                            <input name="_method" type="hidden" value="delete">
+                            <button type="submit">Delete</button>
+                        </form> 
+                        </div>
+                    </li>       
+                {% endfor %}
+            </ul>
+                <form action="/stylists" method="post">
+                  <label for="name">Stylist name:</label>
+                  <input id="name" name="name" type="text">
+
+                  <button type="submit">Add another stylist</button>
+                </form>
+            {% else %}
+            <p>There are no stylists yet. Add a new stylist:</p>
+
+            <form action="/stylists" method="post">
+              <label for="name">Stylist name:</label>
+              <input id="name" name="name" type="text">
+
+              <button type="submit">Add stylist</button>
+            </form>
+            {% endif %}
     
-        <form action="/stylists" method="post">
-            <label for = "name">Enter a new stylist</label>
-            <input id ="name" name = "name" type= "text">
-            <button type = "submit">Go!</button>
-          <br>
+        <form action="/delete_stylists" method="post">
+            <button type="submit">Delete All Stylists</button>
         </form>
+        </div> 
     </body>
 </html>
