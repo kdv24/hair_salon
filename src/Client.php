@@ -55,6 +55,41 @@
 			$this->setName($new_client_name);
 		}
 
+		function delete()
+		{
+			$GLOBALS['DB']->exec("DELETE FROM stylists WHERE id = {$this->getId()};");
+			$GLOBALS['DB']->exec("DELETE FROM clients WHERE stylist_id = {$this->getStylistId()};");
+		}
+
+		function findClients()
+		{
+			$found_clients = array();
+			$table_matches = $GLOBALS['DB]']->query("SELECT * FROM  clients WHERE stylist_id = {$this->getId()};");
+			foreach($table_matches as $row) {
+				$name = $row['name'];
+				$id = $row['id'];
+				$stylist_id = $row['stylist_id'];
+				$new_client = $row['stylist_id'];
+				array_push($found_clients, $new_client);
+			}
+			return $found_clients;
+	
+		}
+
+		static function find($client_search_id)
+		{
+			$found_client = null;
+			$all_clients = Client::getAll();
+			foreach($all_clients as $current_client)
+			{
+				$current_id = $current_client->getId();
+				if ($current_id == $client_search_id) {
+					$found_client = $current_client;
+				}
+			}
+			return $found_client;
+		}
+
 		static function getAll()
 		{
 			$all_clients = $GLOBALS['DB']->query("SELECT * FROM clients;");
@@ -72,6 +107,7 @@
 		static function deleteAll()
 		{
 			$GLOBALS['DB']->exec("DELETE FROM clients *;");
+
 		}
 	}
 ?>	

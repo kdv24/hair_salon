@@ -1,6 +1,7 @@
 <?php
 	require_once __DIR__."/../vendor/autoload.php";
 	require_once __DIR__."/../src/Stylist.php";
+	require_once __DIR__."/../src/Client.php";
 
 	$app = new Silex\Application();
 	$app['debug']=true;
@@ -36,7 +37,7 @@
 	{
 		//view a specific stylist
 		$current_stylist = Stylist::find($id);
-		return $app['twig']->render('stylist.twig', array('stylist' => $current_stylist, 'stylists'=>Stylist::getAll()));
+		return $app['twig']->render('stylist.twig', array('stylist' => $current_stylist, 'stylists'=>Stylist::getAll(), 'clients'=>Client::getAll()));
 	});
 
 	$app->get("/stylists/{id}/edit", function($id) use ($app)
@@ -70,6 +71,34 @@
 	//Clients section
 	$app->get("clients", function() use ($app){
 		return $app['twig']->render('clients.twig', array('clients'=> Client::getAll()));
-	})
+	});
+
+	$app->post("/clients", function () use ($app) {
+		$new_client = new Client($_POST['name'], $id=null, $_POST['stylist_id']);
+		$new_client->save();
+		return $app['twig']->render('clients.twig', array('clients'=> Client::getAll()));
+	});
+
+	$app->get("client/{id}", function ($id) use ($app){
+		$current_client = Client::find($id);
+		return $app['twig']->render('client.twig', array('client'=>$current_client));
+	});
+
+	$app->get("/clients/{id}/edit", function ($id) use ($app){
+		$current_client = Client::find($id);
+		return $app['twig']->render('client_edit.twig', array('client'=>$current_client));
+	});
+
+	$app->delete("/clients/{id}", function ($id) use ($app){
+		$current_client = Client::find($id);
+		$current_client->delete();
+		return $app['twig']->render('clients.twig', array('clients'=> Client::getAll()));
+	});
+
+	$app->post("/delete_clients", function() use ($app){
+		Client::deleteAll();
+		return $app['twig']->render('clients.twig', array('clients'=>Client::getAll()));
+	});
+
 	return $app;
 ?>

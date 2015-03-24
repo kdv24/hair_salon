@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <title>Client name</title>
+    </head>
+    <body>
+    <div class="container">
+        <h3>client.twig</h3>
+        <h2>HAIR SALON</h2>
+        {% if clients is not empty %}
+            <h3>Client name: {{ client.getName }}</h3>
+
+            <button><a href="/clients/{{ client.getId }}/edit">Edit Stylist</a></button>
+
+            <form action="/clients/{{ client.getId }}" method="post">
+              <input name="_method" type="hidden" value="delete">
+              <button type="submit">Delete Client</button>
+            </form>
+            
+            <h4>Clients: </h4>
+            {% for client in clients %}
+                <h4>{{ client.getName }}</h4>
+            {% endfor %}
+        {% endif %}    
+
+
+    <button><a href='/stylists'>List all stylists</a></button>
+    </div>
+    </body>
+</html>

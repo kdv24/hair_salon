@@ -62,7 +62,6 @@
 
 		//Assert
 		$result= Client::getAll();
-		var_dump($result);
 		$this->assertEquals($test_client, $result[0]);
 	}
 
@@ -125,8 +124,28 @@
 		Client::deleteAll();
 
 		//Assert
-		$result= Stylist::getAll();
+		$result= Client::getAll();
 		$this->assertEquals([], $result);
 	}
+
+	function test_find()
+	{
+		$name = "Susanna";
+		$id = 1;
+		$test_stylist = new Stylist($name, $id);
+		$test_stylist->save();
+		$stylist_id = $test_stylist->getId();
+
+		$name = "Joe";
+		$id2 = 1;
+		$test_client = new Client($name, $id2, $stylist_id);
+		$test_client->save();
+
+		$result = Client::find($test_client->getId());
+
+		$this->assertEquals($test_client, $result);
+	}
+
+
 }
 ?>

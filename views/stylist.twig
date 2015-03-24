@@ -7,19 +7,39 @@
     <div class="container">
         <h3>stylist.twig</h3>
         <h2>HAIR SALON</h2>
-        <h3>Individual stylist page</h3>
-        {% if stylists is not empty %}
-            <h4>You added the following stylist: </h4>
-                    <h3>{{ stylist.getName }} </h3>
-        {% endif %}
+        {% if clients is not empty %}
+            <h3>Stylist name: {{ stylist.getName }}</h3>
 
-    <button><a href="/stylists/{{ stylist.getId }}/edit">Edit</a></button>
+            <button><a href="/stylists/{{ stylist.getId }}/edit">Edit Stylist</a></button>
 
-    <form action="/stylists/{{ stylist.getId }}" method="post">
-      <input name="_method" type="hidden" value="delete">
-      <button type="submit">Delete</button>
+            <form action="/stylists/{{ stylist.getId }}" method="post">
+              <input name="_method" type="hidden" value="delete">
+              <button type="submit">Delete Stylist</button>
+            </form>
+
+            <h4>Clients: </h4>
+            {% for client in clients %}
+                <h4>{{ client.getName }}</h4>
+            {% endfor %}
+        {% else %}
+            <p>{{stylist.getName}} has no clients yet</p>
+        {% endif %}    
+
+    <h4>Add a new client</h4>
+    <form action="/clients" method="post">
+        <input id="stylist_id" name="stylist_id" type="hidden" value="{{ stylist.getId() }}">
+        <label for="name">Client name:</label>
+        <input id="name" name= "name" type="text">
+
+        <button type="submit">Add client</button>
     </form>
-    <button><a href='/stylists'>List all stylists</a></button>
+
+    <a href="/stylists/{{ stylist.getId }}/edit">Edit</a>
+    <form action="/stylists/{{ stylist.getId }}" method="post">
+        <input name="_method" type="hidden" value="delete">
+        <button type="submit">Delete</button>
+    </form>    
+    <button><a href='/stylists'>Home</a></button>
     </div>
     </body>
 </html>
