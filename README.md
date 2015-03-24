@@ -1,4 +1,4 @@
-This app allows the owner of a hair salon to add a list of all stylists and their respective clients.
+This app allows the owner of a hair salon to add and edit a list of all stylists and their respective clients.
 
 ###Developer
 Kelly de Vries
